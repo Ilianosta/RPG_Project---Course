@@ -85,6 +85,60 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "shieldUse",
+                    "type": "Button",
+                    "id": "cdb95fd9-eeb2-4052-b947-1e047070fefd",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "arrowL",
+                    "type": "Button",
+                    "id": "a4c456f3-0a9c-476f-9362-9427b14bf63f",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "arrowR",
+                    "type": "Button",
+                    "id": "5532f0ac-bcb5-4df5-8e38-bf5a34119589",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "UseItem",
+                    "type": "Button",
+                    "id": "c374d955-d98e-4d74-af42-a34abf5ea79d",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "ItemChangeUp",
+                    "type": "Button",
+                    "id": "9f386ca1-32d1-4836-8794-eb796c57c0c6",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "ItemChangeDown",
+                    "type": "Button",
+                    "id": "2e3abe53-6e2b-4cea-ad47-0dddf4d691d3",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -327,6 +381,138 @@
                     "processors": "",
                     "groups": "",
                     "action": "heavyAttack",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "2b272feb-f6a2-4340-92b3-c246baaf9b66",
+                    "path": "<Keyboard>/capsLock",
+                    "interactions": "Press(behavior=2)",
+                    "processors": "",
+                    "groups": "",
+                    "action": "shieldUse",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "f9f37790-2714-440d-9380-7ee1bd904399",
+                    "path": "<Gamepad>/leftShoulder",
+                    "interactions": "Press(behavior=2)",
+                    "processors": "",
+                    "groups": "",
+                    "action": "shieldUse",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "bafb117b-6376-4e30-8a9c-0437bb07b6ff",
+                    "path": "<Keyboard>/c",
+                    "interactions": "Press",
+                    "processors": "",
+                    "groups": "",
+                    "action": "arrowL",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "7dd6ce78-ab7b-477a-ab77-152726dad4f8",
+                    "path": "<Gamepad>/dpad/left",
+                    "interactions": "Press",
+                    "processors": "",
+                    "groups": "",
+                    "action": "arrowL",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "a96475b3-f00b-43d3-873e-fdcbc344656d",
+                    "path": "<Keyboard>/v",
+                    "interactions": "Press",
+                    "processors": "",
+                    "groups": "",
+                    "action": "arrowR",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "be774982-93e7-4e64-b519-3295636e92b1",
+                    "path": "<Gamepad>/dpad/right",
+                    "interactions": "Press",
+                    "processors": "",
+                    "groups": "",
+                    "action": "arrowR",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "77a38319-636a-4b84-92e1-14e5c229f65a",
+                    "path": "<Keyboard>/e",
+                    "interactions": "Press",
+                    "processors": "",
+                    "groups": "",
+                    "action": "UseItem",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "b488c3ee-c5a3-4b12-bad5-5d4830d2cf0e",
+                    "path": "<Gamepad>/buttonEast",
+                    "interactions": "Press",
+                    "processors": "",
+                    "groups": "",
+                    "action": "UseItem",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "b6cff2a8-9baf-4b32-9924-2029309fd9e2",
+                    "path": "<Keyboard>/1",
+                    "interactions": "Press",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ItemChangeUp",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "41a78921-d97c-4501-b532-1724b13f716d",
+                    "path": "<Gamepad>/dpad/up",
+                    "interactions": "Press",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ItemChangeUp",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "8f6b2828-8f23-4edc-8a43-07d3c3d72470",
+                    "path": "<Keyboard>/2",
+                    "interactions": "Press",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ItemChangeDown",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "d012d3fc-a51d-4720-b878-35696f734e46",
+                    "path": "<Gamepad>/dpad/down",
+                    "interactions": "Press",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ItemChangeDown",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

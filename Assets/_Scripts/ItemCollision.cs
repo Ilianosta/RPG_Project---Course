@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class ItemCollision : MonoBehaviour
@@ -7,6 +8,7 @@ public class ItemCollision : MonoBehaviour
     public GameObject item;
     public Items drop;
     public WeaponType weaponType;
+    public int arrows, potions, bombs;
     public bool open;
     public string notificationText;
     public Transform upPoint;
@@ -92,11 +94,54 @@ public class ItemCollision : MonoBehaviour
         _PlayerMotion.interacting = false;
         _PlayerMotion.StopEnd();
 
+        if (arrows != 0)
+        {
+            _Inventory.arrows += arrows;
+            UIManager.instance.ShowIcons();
+            UIManager.instance.UpdateArrows(_Inventory.arrows);
+        }
+
         switch (weaponType)
         {
             case WeaponType.sword:
                 _Inventory.SwordActive(drop);
                 _Inventory.weapons.Add(drop);
+                break;
+            case WeaponType.shield:
+                _Inventory.ShieldActive(drop);
+                _Inventory.weapons.Add(drop);
+                break;
+            case WeaponType.crossbow:
+                _Inventory.CrossbowActive(drop);
+                _Inventory.weapons.Add(drop);
+                break;
+            case WeaponType.heal:
+                if (_Inventory.items.Where(i => i == drop).Count() == 0)
+                {
+                    UIManager.instance.ShowPotion();
+                    _Inventory.items.Add(drop);
+                    if (_PlayerMotion.GetPlayerCombat.actualItem == null)
+                    {
+                        _PlayerMotion.GetPlayerCombat.actualItem = _Inventory.items[0];
+                    }
+                }
+                _Inventory.potions += potions;
+                UIManager.instance.ShowIcons();
+                UIManager.instance.UpdatePotions(_Inventory.potions);
+                break;
+            case WeaponType.bomb:
+                if (_Inventory.items.Where(i => i == drop).Count() == 0)
+                {
+                    UIManager.instance.ShowBomb();
+                    _Inventory.items.Add(drop);
+                    if (_PlayerMotion.GetPlayerCombat.actualItem == null)
+                    {
+                        _PlayerMotion.GetPlayerCombat.actualItem = _Inventory.items[0];
+                    }
+                }
+                _Inventory.bombs += bombs;
+                UIManager.instance.ShowIcons();
+                UIManager.instance.UpdateBombs(_Inventory.bombs);
                 break;
             default:
                 break;

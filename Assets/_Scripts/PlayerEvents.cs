@@ -26,4 +26,14 @@ public class PlayerEvents : MonoBehaviour
     {
         playerCombat.Hit();
     }
+
+    public void Shoot()
+    {
+        playerCombat.Shoot();
+    }
+
+    public void HealEnd()
+    {
+        playerCombat.HealEnd();
+    }
 }

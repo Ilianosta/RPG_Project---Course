@@ -29,8 +29,10 @@ public class PlayerMotion : MonoBehaviour
     public bool isRoll;
     public bool interacting;
     public ItemCollision chest;
+    public Door door;
     public LayerMask groundLayer;
     private PlayerCombat playerCombat;
+    public PlayerCombat GetPlayerCombat => playerCombat;
     private float slopeAngle;
     private Rigidbody rb;
     private Animator anim;
@@ -241,6 +243,11 @@ public class PlayerMotion : MonoBehaviour
             chest.Open();
             return;
         }
+
+        if (door)
+        {
+            door.Open();
+        }
     }
     public void OnCam(InputValue value)
     {
@@ -318,6 +325,11 @@ public class PlayerMotion : MonoBehaviour
             cinemachineFreeLook.Priority = 8;
             anim.SetBool("IsFocus", true);
             anim.SetTrigger("Focus");
+
+            if (playerCombat.actualWeapon != null)
+            {
+                if (playerCombat.actualWeapon.type == WeaponType.shield) playerCombat.OnShieldUse(true);
+            }
         }
         else
         {
@@ -330,6 +342,8 @@ public class PlayerMotion : MonoBehaviour
             cinemachineFreeLook.Priority = 10;
             anim.SetBool("IsFocus", false);
             anim.SetTrigger("SwitchWeapon");
+
+            playerCombat.ShieldBlock();
         }
     }
 
