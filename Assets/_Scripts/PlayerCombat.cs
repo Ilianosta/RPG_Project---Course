@@ -13,16 +13,20 @@ public class PlayerCombat : MonoBehaviour
     public GameObject shieldBox, shieldBoxParticle;
     public GameObject healParticle;
     public GameObject arrowPrefab;
+    public GameObject fireballPrefab;
     public Transform attachPoint;
     public Transform forwardT;
     public LayerMask enemyMask;
     public float arrowSpeed;
     public float focusAtkImpulse;
     public float combo;
+    public float fireSpeed, timeFire, fireCooldown;
+    public bool fireExist, magicUse;
     public bool isAttacking;
     public bool shieldUse;
     public bool bombUse;
     PlayerMotion playerMotion;
+    PlayerLife playerLife;
     Inventory inventory;
     zTarget zTarget;
     CinemachineImpulseSource cinemachineImpulseSource;
@@ -33,6 +37,7 @@ public class PlayerCombat : MonoBehaviour
     private void Awake()
     {
         playerMotion = GetComponent<PlayerMotion>();
+        playerLife = GetComponent<PlayerLife>();
         inventory = GetComponent<Inventory>();
         zTarget = GetComponent<zTarget>();
         anim = GetComponentInChildren<Animator>();
@@ -143,6 +148,61 @@ public class PlayerCombat : MonoBehaviour
         ShieldBlock();
     }
 
+    public void OnMagic()
+    {
+        if (actualWeapon == null || !fireExist || magicUse) return;
+
+        if (!isAttacking && playerMotion.Attack())
+        {
+            isAttacking = true;
+            Reset();
+            playerMotion.Stopping();
+
+            if (actualWeapon.type == WeaponType.shield) inventory.shield.SetActive(false);
+
+            magicUse = true;
+            anim.SetBool("MagicOff", true);
+            anim.SetTrigger("Magic");
+        }
+    }
+
+    public void Fire()
+    {
+        if (zTarget.target != null) playerMotion.UpdateFocus();
+
+        UIManager.instance.FireUse();
+        GameObject fireball = Instantiate(fireballPrefab, null);
+        fireball.transform.position = fireballPrefab.transform.position;
+        fireball.transform.rotation = fireballPrefab.transform.rotation;
+
+        if (playerMotion.targetPlayer != null) fireball.transform.LookAt(playerMotion.targetPlayer.position);
+
+        Vector3 targetDir = fireball.transform.forward * fireSpeed * 2;
+        fireball.GetComponent<Rigidbody>().AddForce(targetDir);
+
+        Destroy(fireball, 5);
+        StartCoroutine("FireOff");
+    }
+
+    IEnumerator FireOff()
+    {
+        yield return new WaitForSeconds(timeFire);
+
+        anim.SetBool("MagicOff", false);
+
+        yield return new WaitForSeconds(.5f);
+
+        if (actualWeapon.type == WeaponType.shield) inventory.shield.SetActive(false);
+
+        isAttacking = false;
+        playerMotion.StopEnd();
+        UIManager.instance.ShowFireCooldown(fireCooldown);
+
+        yield return new WaitForSeconds(fireCooldown);
+
+        magicUse = false;
+    }
+
     public void OnUseItem()
     {
         if (actualWeapon == null || actualItem == null) return;
@@ -156,6 +216,7 @@ public class PlayerCombat : MonoBehaviour
                 playerMotion.Stopping();
                 if (actualWeapon.type == WeaponType.crossbow) inventory.crossbow.SetActive(false);
                 if (actualWeapon.type == WeaponType.sword) inventory.sword.SetActive(false);
+                if (actualWeapon.type == WeaponType.shield) inventory.shield.SetActive(false);
 
                 anim.SetTrigger("Throw");
                 inventory.bombs--;
@@ -172,6 +233,8 @@ public class PlayerCombat : MonoBehaviour
                 playerMotion.Stopping();
                 healParticle.SetActive(true);
                 anim.SetTrigger("Heal");
+                playerLife.currentLife += actualItem.points;
+                UIManager.instance.UpdateLife(playerLife.currentLife);
                 inventory.potions--;
                 UIManager.instance.UpdatePotions(inventory.potions);
                 Sequence s = DOTween.Sequence();
@@ -263,6 +326,8 @@ public class PlayerCombat : MonoBehaviour
                     Destroy(bomb, .5f);
                     if (actualWeapon.type == WeaponType.crossbow) inventory.crossbow.SetActive(true);
                     if (actualWeapon.type == WeaponType.sword) inventory.sword.SetActive(true);
+                    if (actualWeapon.type == WeaponType.shield) inventory.shield.SetActive(true);
+
                     isAttacking = false;
                     playerMotion.StopEnd();
                 });
@@ -275,13 +340,15 @@ public class PlayerCombat : MonoBehaviour
                     Destroy(bomb, .5f);
                     if (actualWeapon.type == WeaponType.crossbow) inventory.crossbow.SetActive(true);
                     if (actualWeapon.type == WeaponType.sword) inventory.sword.SetActive(true);
+                    if (actualWeapon.type == WeaponType.shield) inventory.shield.SetActive(true);
+
                     isAttacking = false;
                     playerMotion.StopEnd();
                 });
             }
             return;
         }
-        
+
         swordCollision.enabled = true;
         Reset();
 

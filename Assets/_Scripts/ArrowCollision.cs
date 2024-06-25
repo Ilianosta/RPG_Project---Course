@@ -13,7 +13,7 @@ public class ArrowCollision : MonoBehaviour
         if (other.CompareTag("Target"))
         {
             cinemachineImpulseSource.GenerateImpulse(Camera.main.transform.forward);
-            other.transform.GetComponent<TargetDamage>().Damage(damage);
+            other.transform.GetComponent<Life>().GetHit(damage);
             Destroy(gameObject);
         }
         if (other.CompareTag("Ground"))

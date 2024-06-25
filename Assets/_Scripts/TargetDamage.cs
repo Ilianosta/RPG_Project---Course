@@ -4,7 +4,7 @@ using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class TargetDamage : MonoBehaviour
+public class TargetDamage : Life
 {
     public GameObject targetPoint;
     public Material blue;
@@ -12,7 +12,6 @@ public class TargetDamage : MonoBehaviour
     public MeshRenderer mesh;
     public GameObject text;
     public Transform model;
-    public int life;
     public bool inDamage;
     public GameObject player;
 
@@ -22,12 +21,11 @@ public class TargetDamage : MonoBehaviour
         model = mesh.transform;
     }
 
-    public void Damage(int damage)
+    public override void GetHit(int damage)
     {
         if (inDamage) return;
-
+        base.GetHit(damage);
         inDamage = true;
-        life -= damage;
 
         mesh.material = red;
 
@@ -52,7 +50,7 @@ public class TargetDamage : MonoBehaviour
         s.AppendInterval(1).OnComplete(() =>
         {
             inDamage = false;
-            if (life > 0)
+            if (currentLife > 0)
             {
                 mesh.material = blue;
             }
@@ -62,6 +60,14 @@ public class TargetDamage : MonoBehaviour
                 Destroy(gameObject, .2f);
             }
         });
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            other.GetComponent<Life>().GetHit(25);
+        }
     }
 
     private void OnDestroy()

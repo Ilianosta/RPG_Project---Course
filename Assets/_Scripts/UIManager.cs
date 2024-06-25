@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
@@ -7,6 +8,7 @@ using UnityEngine.UI;
 public class UIManager : MonoBehaviour
 {
     public static UIManager instance;
+    public GameObject lifeBar;
     public GameObject notification;
     public GameObject interact;
     public GameObject icons;
@@ -15,6 +17,8 @@ public class UIManager : MonoBehaviour
     public TextMeshProUGUI arrowsTxt;
     public Image bombIcon, starBomb;
     public Image potionIcon, starPotion;
+    public Image fireIcon;
+    public Text fireTxt;
     private void Awake()
     {
         if (UIManager.instance) Destroy(this);
@@ -118,6 +122,28 @@ public class UIManager : MonoBehaviour
             bombIcon.DOFade(1, 0);
             potionIcon.DOFade(.5f, 0);
         }
+    }
+    public void UpdateLife(int currentLife)
+    {
+        Vector2 v = new Vector2(currentLife * 4, lifeBar.GetComponent<RectTransform>().sizeDelta.y);
+        lifeBar.GetComponent<RectTransform>().DOSizeDelta(v, .2f);
+    }
+
+    public void ShowFire()
+    {
+        fireIcon.gameObject.SetActive(true);
+    }
+
+    public void FireUse()
+    {
+        fireIcon.DOFade(0, 0);
+    }
+
+    public void ShowFireCooldown(float cooldown)
+    {
+        Sequence s = DOTween.Sequence();
+        fireIcon.DOFade(1, cooldown);
+        s.Append(DOVirtual.Float(cooldown, 0, cooldown, v => fireTxt.text = MathF.Round(v).ToString())).OnComplete(() => fireTxt.text = "");
     }
 }
 

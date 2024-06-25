@@ -23,7 +23,7 @@ public class Bomb : MonoBehaviour
         cinemachineImpulseSource.GenerateImpulse(Camera.main.transform.forward);
         foreach (Collider c in rangeCheck)
         {
-            if (c.GetComponent<TargetDamage>() != null) c.GetComponent<TargetDamage>().Damage(damage);
+            if (c.GetComponent<Life>() != null) c.GetComponent<Life>().GetHit(damage);
         }
     }
 }

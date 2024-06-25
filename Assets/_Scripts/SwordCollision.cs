@@ -22,7 +22,7 @@ public class SwordCollision : MonoBehaviour
                 cinemachineImpulse.GenerateImpulse(Camera.main.transform.forward);
                 if (target.player) target.player = playerCombat.gameObject;
 
-                target.Damage(attack);
+                target.GetComponent<Life>().GetHit(attack);
             }
         }
     }

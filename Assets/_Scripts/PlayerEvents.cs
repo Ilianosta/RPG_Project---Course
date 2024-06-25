@@ -36,4 +36,9 @@ public class PlayerEvents : MonoBehaviour
     {
         playerCombat.HealEnd();
     }
+
+    public void Fire()
+    {
+        playerCombat.Fire();
+    }
 }
