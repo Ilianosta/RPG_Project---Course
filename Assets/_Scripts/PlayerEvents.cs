@@ -41,4 +41,7 @@ public class PlayerEvents : MonoBehaviour
     {
         playerCombat.Fire();
     }
+
+    public void FootR(){}
+    public void FootL(){}
 }
